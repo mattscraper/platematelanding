@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Platemate Waitlist</title>
+    <style>
+      /* Reset and basic styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 1rem;
+      }
+      .container {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #333;
+        font-size: 1.5rem;
+      }
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      input[type="email"] {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+      input[type="email"]:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        color: #555;
+      }
+      .checkbox-group input[type="checkbox"] {
+        margin-right: 0.5rem;
+        width: 18px;
+        height: 18px;
+      }
+      button {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .message {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: green;
+      }
+      .message.error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Join the Waitlist</h1>
+      <form
+        id="waitlist-form"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+      >
+        <!-- Replace YOUR_API_KEY with your actual Web3Forms API key -->
+        <input
+          type="hidden"
+          name="apikey"
+          value="625ce7ec-b6a7-4da2-b39c-ed18f1cf3b95"
+        />
+        <input
+          type="hidden"
+          name="subject"
+          value="New Waitlist Signup for Platemate"
+        />
+        <!-- This hidden field designates where notification emails are sent -->
+        <input
+          type="hidden"
+          name="to_email"
+          value="platematecontact@gmail.com"
+        />
+
+        <div class="form-group">
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="consent" name="consent" required />
+          <label for="consent">
+            I hereby consent to receiving professional communications and
+            updates from Platemate.
+          </label>
+        </div>
+        <button type="submit">Join Waitlist</button>
+        <div id="form-message" class="message"></div>
+      </form>
+    </div>
+
+    <script>
+      const form = document.getElementById("waitlist-form");
+      const formMessage = document.getElementById("form-message");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        formMessage.textContent = "Submitting...";
+
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch(form.action, {
+            method: form.method,
+            headers: {
+              Accept: "application/json",
+            },
+            body: formData,
+          });
+          const result = await response.json();
+
+          if (response.ok) {
+            formMessage.textContent = "Thank you for joining our waitlist!";
+            form.reset();
+          } else {
+            formMessage.textContent =
+              result.message || "Something went wrong. Please try again.";
+            formMessage.classList.add("error");
+          }
+        } catch (error) {
+          formMessage.textContent =
+            "An error occurred. Please try again later.";
+          formMessage.classList.add("error");
+        }
+      });
+    </script>
+  </body>
+</html>
