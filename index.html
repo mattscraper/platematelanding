@@ -94,24 +94,15 @@
         action="https://api.web3forms.com/submit"
         method="POST"
       >
-        <!-- Replace YOUR_API_KEY with your actual Web3Forms API key -->
-        <input
-          type="hidden"
-          name="apikey"
-          value=b0fe2b04-2eb6-4e48-a44d-66c71c9c3e9a
-        />
-        <input
-          type="hidden"
-          name="subject"
-          value="New Waitlist Signup for Platemate"
-        />
-        <!-- This hidden field designates where notification emails are sent -->
-        <input
-          type="hidden"
-          name="to_email"
-          value="platematecontact@gmail.com"
-        />
-
+        <!-- Required Web3Forms Access Key -->
+        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+        <input type="hidden" name="subject" value="New Waitlist Signup for Platemate" />
+        <input type="hidden" name="from_name" value="Platemate Waitlist" />
+        <input type="hidden" name="redirect" value="https://platemate.cc/success" />
+        
+        <!-- Bot Spam Protection -->
+        <input type="hidden" name="botcheck" value="" />
+        
         <div class="form-group">
           <input
             type="email"
@@ -161,8 +152,7 @@
             formMessage.classList.add("error");
           }
         } catch (error) {
-          formMessage.textContent =
-            "An error occurred. Please try again later.";
+          formMessage.textContent = "An error occurred. Please try again later.";
           formMessage.classList.add("error");
         }
       });
